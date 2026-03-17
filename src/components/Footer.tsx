@@ -15,11 +15,11 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-2 text-sm text-slate-600 dark:text-slate-400">
             <p>
-              <strong>Your Name</strong> — Full Stack Developer
+              <strong>Tanvi Dudam</strong> — Full Stack Developer
             </p>
             <div className="flex gap-4">
               <Link
-                href="https://github.com/yourusername"
+                href="https://github.com/tanvi-2103-git"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-slate-900 dark:hover:text-white"
@@ -27,7 +27,7 @@ export function Footer() {
                 GitHub Profile
               </Link>
               <Link
-                href="https://linkedin.com/in/yourusername"
+                href="https://www.linkedin.com/in/tanvi-dudam-42475821b/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-slate-900 dark:hover:text-white"
