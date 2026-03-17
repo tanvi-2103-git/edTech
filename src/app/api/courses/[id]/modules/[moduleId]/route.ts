@@ -7,7 +7,7 @@ import { json, apiError } from "@/lib/api-helpers";
 /** PATCH /api/courses/[id]/modules/[moduleId] */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; moduleId: string }> }
+  { params }: { params: Promise<{ id: string; moduleId: string }> },
 ) {
   const { session, error } = await requireRole(["INSTRUCTOR", "ADMIN"]);
   if (error) return error;
@@ -17,12 +17,15 @@ export async function PATCH(
     where: { OR: [{ id }, { slug: id }] },
   });
   if (!course) return apiError("Course not found", 404);
-  const module = await prisma.module.findFirst({
+  const foundModule = await prisma.module.findFirst({
     where: { id: moduleId, courseId: course.id },
     include: { course: true },
   });
-  if (!module) return apiError("Module not found", 404);
-  if (module.course.creatorId !== session!.userId && session!.role !== "ADMIN") {
+  if (!foundModule) return apiError("Module not found", 404);
+  if (
+    foundModule.course.creatorId !== session!.userId &&
+    session!.role !== "ADMIN"
+  ) {
     return apiError("Forbidden", 403);
   }
 
@@ -30,8 +33,9 @@ export async function PATCH(
   const parsed = updateModuleSchema.safeParse(body);
   if (!parsed.success) {
     return apiError(
-      parsed.error.issues.map((e) => e.message).join(", ") || "Validation failed",
-      400
+      parsed.error.issues.map((e) => e.message).join(", ") ||
+        "Validation failed",
+      400,
     );
   }
 
@@ -45,7 +49,7 @@ export async function PATCH(
 /** DELETE /api/courses/[id]/modules/[moduleId] */
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string; moduleId: string }> }
+  { params }: { params: Promise<{ id: string; moduleId: string }> },
 ) {
   const { session, error } = await requireRole(["INSTRUCTOR", "ADMIN"]);
   if (error) return error;
@@ -55,12 +59,15 @@ export async function DELETE(
     where: { OR: [{ id }, { slug: id }] },
   });
   if (!course) return apiError("Course not found", 404);
-  const module = await prisma.module.findFirst({
+  const foundModule = await prisma.module.findFirst({
     where: { id: moduleId, courseId: course.id },
     include: { course: true },
   });
-  if (!module) return apiError("Module not found", 404);
-  if (module.course.creatorId !== session!.userId && session!.role !== "ADMIN") {
+  if (!foundModule) return apiError("Module not found", 404);
+  if (
+    foundModule.course.creatorId !== session!.userId &&
+    session!.role !== "ADMIN"
+  ) {
     return apiError("Forbidden", 403);
   }
 

@@ -51,11 +51,11 @@ export async function POST(
     );
   }
 
-  const module = await prisma.module.create({
+  const createdModule = await prisma.module.create({
     data: {
       ...parsed.data,
       courseId: course.id,
     },
   });
-  return json({ module }, 201);
+  return json({ module: createdModule }, 201);
 }
